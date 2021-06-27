@@ -11,10 +11,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class BooksRepository {
     private val url = "https://anbo-restbookquerystring.azurewebsites.net/api/"
-        //"http://anbo-restserviceproviderbooks.azurewebsites.net/Service1.svc/"
+
+    //"http://anbo-restserviceproviderbooks.azurewebsites.net/Service1.svc/"
     private val bookStoreService: BookStoreService
     val booksLiveData: MutableLiveData<List<Book>> = MutableLiveData<List<Book>>()
     val errorMessageLiveData: MutableLiveData<String> = MutableLiveData()
+    val updateMessageLiveData: MutableLiveData<String> = MutableLiveData()
 
     init {
         val build: Retrofit = Retrofit.Builder()
@@ -51,6 +53,7 @@ class BooksRepository {
             override fun onResponse(call: Call<Book>, response: Response<Book>) {
                 if (response.isSuccessful) {
                     Log.d("APPLE", "Added: " + response.body())
+                    updateMessageLiveData.postValue("Added: " + response.body())
                 } else {
                     val message = response.code().toString() + " " + response.message()
                     errorMessageLiveData.postValue(message)
@@ -70,6 +73,7 @@ class BooksRepository {
             override fun onResponse(call: Call<Book>, response: Response<Book>) {
                 if (response.isSuccessful) {
                     Log.d("APPLE", "Updated: " + response.body())
+                    updateMessageLiveData.postValue("Deleted: " + response.body())
                 } else {
                     val message = response.code().toString() + " " + response.message()
                     errorMessageLiveData.postValue(message)
@@ -88,7 +92,8 @@ class BooksRepository {
         bookStoreService.updateBook(book.id, book).enqueue(object : Callback<Book> {
             override fun onResponse(call: Call<Book>, response: Response<Book>) {
                 if (response.isSuccessful) {
-                    Log.d("APPLE", "Added: " + response.body())
+                    Log.d("APPLE", "Updated: " + response.body())
+                    updateMessageLiveData.postValue("Updated: " + response.body())
                 } else {
                     val message = response.code().toString() + " " + response.message()
                     errorMessageLiveData.postValue(message)

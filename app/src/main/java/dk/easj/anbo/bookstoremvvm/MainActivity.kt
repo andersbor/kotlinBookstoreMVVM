@@ -2,19 +2,18 @@ package dk.easj.anbo.bookstoremvvm
 
 import android.os.Bundle
 import android.text.InputType
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.activityViewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
+import com.google.android.material.snackbar.Snackbar
 import dk.easj.anbo.bookstoremvvm.databinding.ActivityMainBinding
 import dk.easj.anbo.bookstoremvvm.models.Book
 import dk.easj.anbo.bookstoremvvm.models.BooksViewModel
@@ -22,6 +21,7 @@ import dk.easj.anbo.bookstoremvvm.models.BooksViewModel
 class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private val booksViewModel: BooksViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +42,10 @@ class MainActivity : AppCompatActivity() {
             //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
             //    .setAction("Action", null).show()
         }
+
+        booksViewModel.updateMessageLiveData.observe(this, { message ->
+            Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -69,7 +73,7 @@ class MainActivity : AppCompatActivity() {
     // Adapted from https://handyopinion.com/show-alert-dialog-with-an-input-field-edittext-in-android-kotlin/
     private fun showDialog() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-        builder.setTitle("New Post")
+        builder.setTitle("Add Book")
 
         val layout = LinearLayout(this@MainActivity)
         layout.orientation = LinearLayout.VERTICAL
@@ -81,7 +85,8 @@ class MainActivity : AppCompatActivity() {
 
         val bodyInputField = EditText(this)
         bodyInputField.hint = "Price"
-        bodyInputField.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+        bodyInputField.inputType =
+            InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
         layout.addView(bodyInputField)
 
         builder.setView(layout)
@@ -95,12 +100,15 @@ class MainActivity : AppCompatActivity() {
                     Snackbar.make(binding.root, "No title", Snackbar.LENGTH_LONG).show()
                 title.isEmpty() -> Snackbar.make(binding.root, "No title", Snackbar.LENGTH_LONG)
                     .show()
-                priceStr.isEmpty() -> Snackbar.make(binding.root, "No price", Snackbar.LENGTH_LONG)
+                priceStr.isEmpty() -> Snackbar.make(
+                    binding.root,
+                    "No price",
+                    Snackbar.LENGTH_LONG
+                )
                     .show()
                 else -> {
-                    val book = Book(-1, "Anders", title, "Mig selv", priceStr.toDouble())
-                    val viewModel: BooksViewModel by viewModels()
-                    viewModel.add(book)
+                    val book = Book(title, priceStr.toDouble())
+                    booksViewModel.add(book)
                 }
             }
         }

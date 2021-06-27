@@ -1,7 +1,6 @@
 package dk.easj.anbo.bookstoremvvm.models
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dk.easj.anbo.bookstoremvvm.repository.BooksRepository
 
@@ -9,7 +8,7 @@ class BooksViewModel : ViewModel() {
     private val repository = BooksRepository()
     val booksLiveData: LiveData<List<Book>> = repository.booksLiveData
     val errorMessageLiveData: LiveData<String> = repository.errorMessageLiveData
-
+    val updateMessageLiveData: LiveData<String> = repository.updateMessageLiveData
 
     init {
         reload()

@@ -1,20 +1,13 @@
 package dk.easj.anbo.bookstoremvvm
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.InputType
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.LinearLayout
-import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import dk.easj.anbo.bookstoremvvm.databinding.FragmentSecondBinding
 import dk.easj.anbo.bookstoremvvm.models.Book
 import dk.easj.anbo.bookstoremvvm.models.BooksViewModel
@@ -53,27 +46,31 @@ class SecondFragment : Fragment() {
             binding.textviewMessage.text = "No such book!"
             return
         }
-        binding.editTextAuthor.setText(book.author)
-        binding.editTextPublisher.setText(book.publisher)
+        //binding.editTextAuthor.setText(book.author)
+        //binding.editTextPublisher.setText(book.publisher)
         binding.editTextTitle.setText(book.title)
         binding.editTextPrice.setText(book.price.toString())
 
         binding.buttonBack.setOnClickListener {
-            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
+            // findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
+            // https://stackoverflow.com/questions/60003039/why-android-navigation-component-screen-not-go-back-to-previous-fragment-but-a-m
+            findNavController().popBackStack()
         }
 
         binding.buttonDelete.setOnClickListener {
             booksViewModel.delete(book.id)
+            findNavController().popBackStack()
         }
 
         binding.buttonUpdate.setOnClickListener {
             val title = binding.editTextTitle.text.toString().trim()
-            val publisher = binding.editTextPublisher.text.toString().trim()
-            val author = binding.editTextAuthor.text.toString().trim()
+            //val publisher = binding.editTextPublisher.text.toString().trim()
+            //val author = binding.editTextAuthor.text.toString().trim()
             val price = binding.editTextPrice.text.toString().trim().toDouble()
-            val updatedBook = Book(book.id, author, title, publisher, price)
+            val updatedBook = Book(book.id, title,  price)
             Log.d("APPLE", "update $updatedBook")
             booksViewModel.update(updatedBook)
+            findNavController().popBackStack()
         }
 
 

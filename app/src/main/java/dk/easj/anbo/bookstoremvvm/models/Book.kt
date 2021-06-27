@@ -1,7 +1,9 @@
 package dk.easj.anbo.bookstoremvvm.models
 
-data class Book(val id: Int=-1, val author: String, val title: String, val publisher: String, val price: Double) {
+data class Book(val id: Int, val title: String, val price: Double) {
+    constructor(title: String, price: Double) : this(-1, title, price)
+
     override fun toString(): String {
-        return "$id $author: $title, $publisher, $price"
+        return "$id  $title,  $price"
     }
 }
