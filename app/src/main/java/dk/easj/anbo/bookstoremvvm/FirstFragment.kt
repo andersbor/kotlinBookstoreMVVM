@@ -38,6 +38,7 @@ class FirstFragment : Fragment() {
 
         booksViewModel.booksLiveData.observe(viewLifecycleOwner) { books ->
             //Log.d("APPLE", "observer $books")
+            binding.progressbar.visibility = View.GONE
             binding.recyclerView.visibility = if (books == null) View.GONE else View.VISIBLE
             if (books != null) {
                 val adapter = BooksAdapter(books) { position ->
