@@ -12,27 +12,17 @@ import dk.easj.anbo.bookstoremvvm.databinding.FragmentSecondBinding
 import dk.easj.anbo.bookstoremvvm.models.Book
 import dk.easj.anbo.bookstoremvvm.models.BooksViewModel
 
-/**
- * A simple [Fragment] subclass as the second destination in the navigation.
- */
 class SecondFragment : Fragment() {
-
     private var _binding: FragmentSecondBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
-
     private val booksViewModel: BooksViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,8 +36,6 @@ class SecondFragment : Fragment() {
             binding.textviewMessage.text = "No such book!"
             return
         }
-        //binding.editTextAuthor.setText(book.author)
-        //binding.editTextPublisher.setText(book.publisher)
         binding.editTextTitle.setText(book.title)
         binding.editTextPrice.setText(book.price.toString())
 
