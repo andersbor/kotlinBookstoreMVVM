@@ -7,7 +7,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import dk.easj.anbo.bookstoremvvm.R
 
-class BooksAdapter<T>(private val items: List<T>, private val onItemClicked: (position: Int) -> Unit) :
+class BooksAdapter<T>(
+    private val items: List<T>,
+    private val onItemClicked: (position: Int) -> Unit
+) :
     RecyclerView.Adapter<BooksAdapter.MyViewHolder>() {
 
     override fun getItemCount(): Int {
@@ -37,6 +40,7 @@ class BooksAdapter<T>(private val items: List<T>, private val onItemClicked: (po
 
         override fun onClick(view: View) {
             val position = bindingAdapterPosition
+            // gradle     implementation "androidx.recyclerview:recyclerview:1.2.1"
             onItemClicked(position)
         }
     }
