@@ -7,11 +7,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import dk.easj.anbo.bookstoremvvm.R
 
-class BooksAdapter<T>(
+class MyAdapter<T>(
     private val items: List<T>,
     private val onItemClicked: (position: Int) -> Unit
-) :
-    RecyclerView.Adapter<BooksAdapter.MyViewHolder>() {
+) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
     override fun getItemCount(): Int {
         return items.size

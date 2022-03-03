@@ -43,9 +43,9 @@ class MainActivity : AppCompatActivity() {
             //    .setAction("Action", null).show()
         }
 
-        booksViewModel.updateMessageLiveData.observe(this, { message ->
+        booksViewModel.updateMessageLiveData.observe(this) { message ->
             Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
-        })
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

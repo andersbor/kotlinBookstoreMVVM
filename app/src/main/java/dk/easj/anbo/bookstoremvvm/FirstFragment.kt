@@ -9,18 +9,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dk.easj.anbo.bookstoremvvm.databinding.FragmentFirstBinding
-import dk.easj.anbo.bookstoremvvm.models.BooksAdapter
+import dk.easj.anbo.bookstoremvvm.models.MyAdapter
 import dk.easj.anbo.bookstoremvvm.models.BooksViewModel
 
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
 class FirstFragment : Fragment() {
-
     private var _binding: FragmentFirstBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     private val booksViewModel: BooksViewModel by activityViewModels()
@@ -41,7 +34,7 @@ class FirstFragment : Fragment() {
             binding.progressbar.visibility = View.GONE
             binding.recyclerView.visibility = if (books == null) View.GONE else View.VISIBLE
             if (books != null) {
-                val adapter = BooksAdapter(books) { position ->
+                val adapter = MyAdapter(books) { position ->
                     val action = FirstFragmentDirections.actionFirstFragmentToSecondFragment(position)
                     findNavController().navigate(action /*R.id.action_FirstFragment_to_SecondFragment*/)
                 }
