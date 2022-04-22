@@ -19,9 +19,13 @@ class BooksRepository {
     val updateMessageLiveData: MutableLiveData<String> = MutableLiveData()
 
     init {
+        //val moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
         val build: Retrofit = Retrofit.Builder()
             .baseUrl(url)
-            .addConverterFactory(GsonConverterFactory.create()).build()
+            .addConverterFactory(GsonConverterFactory.create()) // GSON
+            //.addConverterFactory(KotlinJsonAdapterFactory)
+            //.addConverterFactory(MoshiConverterFactory.create(moshi)) // Moshi, added to Gradle dependencies
+            .build()
         bookStoreService = build.create(BookStoreService::class.java)
         getPosts()
     }
@@ -31,7 +35,8 @@ class BooksRepository {
             override fun onResponse(call: Call<List<Book>>, response: Response<List<Book>>) {
                 if (response.isSuccessful) {
                     //Log.d("APPLE", response.body().toString())
-                    booksLiveData.postValue(response.body())
+                    val b: List<Book>? = response.body()
+                    booksLiveData.postValue(b)
                     errorMessageLiveData.postValue("")
                 } else {
                     val message = response.code().toString() + " " + response.message()
