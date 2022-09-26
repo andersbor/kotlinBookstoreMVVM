@@ -36,7 +36,7 @@ class BooksRepository {
                 if (response.isSuccessful) {
                     //Log.d("APPLE", response.body().toString())
                     val b: List<Book>? = response.body()
-                    booksLiveData.postValue(b)
+                    booksLiveData.postValue(b!!)
                     errorMessageLiveData.postValue("")
                 } else {
                     val message = response.code().toString() + " " + response.message()
