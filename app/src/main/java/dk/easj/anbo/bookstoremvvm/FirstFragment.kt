@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -65,9 +66,33 @@ class FirstFragment : Fragment() {
             binding.swiperefresh.isRefreshing = false
         }
 
-        /* binding.buttonFirst.setOnClickListener {
-             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-         }*/
+        booksViewModel.booksLiveData.observe(viewLifecycleOwner) { books ->
+            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, books)
+            binding.spinner.adapter = adapter
+            /* binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                 override fun onItemSelected(
+                     parent: AdapterView<*>?,
+                     view: View?,
+                     position: Int,
+                     id: Long
+                 ) { // reacts instantly: Much to quick.
+                     val action =
+                         FirstFragmentDirections.actionFirstFragmentToSecondFragment(position)
+                     findNavController().navigate(action /*R.id.action_FirstFragment_to_SecondFragment*/)
+                 }
+
+                 override fun onNothingSelected(parent: AdapterView<*>?) {
+                     TODO("Not yet implemented")
+                 }
+             }*/
+        }
+
+        binding.buttonShowDetails.setOnClickListener {
+            val position = binding.spinner.selectedItemPosition
+            val action =
+                FirstFragmentDirections.actionFirstFragmentToSecondFragment(position)
+            findNavController().navigate(action /*R.id.action_FirstFragment_to_SecondFragment*/)
+        }
     }
 
     override fun onDestroyView() {
