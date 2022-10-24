@@ -63,12 +63,12 @@ class FirstFragment : Fragment() {
 
         binding.swiperefresh.setOnRefreshListener {
             booksViewModel.reload()
-            binding.swiperefresh.isRefreshing = false
+            binding.swiperefresh.isRefreshing = false // TODO too early
         }
 
         booksViewModel.booksLiveData.observe(viewLifecycleOwner) { books ->
             val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, books)
-            binding.spinner.adapter = adapter
+            binding.spinnerBooks.adapter = adapter
             /* binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                  override fun onItemSelected(
                      parent: AdapterView<*>?,
@@ -88,10 +88,19 @@ class FirstFragment : Fragment() {
         }
 
         binding.buttonShowDetails.setOnClickListener {
-            val position = binding.spinner.selectedItemPosition
+            val position = binding.spinnerBooks.selectedItemPosition
             val action =
                 FirstFragmentDirections.actionFirstFragmentToSecondFragment(position)
             findNavController().navigate(action /*R.id.action_FirstFragment_to_SecondFragment*/)
+        }
+
+        binding.buttonSort.setOnClickListener {
+            when (binding.spinnerSorting.selectedItemPosition) {
+                0 -> booksViewModel.sortByTitle()
+                1 -> booksViewModel.sortByTitleDescending()
+                2 -> booksViewModel.sortByPrice()
+                3 -> booksViewModel.sortByPriceDescenting()
+            }
         }
     }
 

@@ -112,4 +112,20 @@ class BooksRepository {
             }
         })
     }
+
+    fun sortByTitle() {
+        booksLiveData.value = booksLiveData.value?.sortedBy { it.title }
+    }
+
+    fun sortByTitleDescending() {
+        booksLiveData.value = booksLiveData.value?.sortedByDescending { it.title }
+    }
+
+    fun sortByPrice() {
+        booksLiveData.value = booksLiveData.value?.sortedBy { it.price }
+    }
+
+    fun sortByPriceDescending() {
+        booksLiveData.value = booksLiveData.value?.sortedByDescending { it.price }
+    }
 }

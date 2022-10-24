@@ -33,4 +33,20 @@ class BooksViewModel : ViewModel() {
     fun update(book: Book) {
         repository.update(book)
     }
+
+    fun sortByTitle() {
+        repository.sortByTitle()
+    }
+
+    fun sortByTitleDescending() {
+        repository.sortByTitleDescending()
+    }
+
+    fun sortByPrice() {
+        repository.sortByPrice()
+    }
+
+    fun sortByPriceDescenting() {
+        repository.sortByPriceDescending()
+    }
 }
