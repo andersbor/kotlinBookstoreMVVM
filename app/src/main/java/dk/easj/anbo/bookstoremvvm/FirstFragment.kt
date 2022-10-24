@@ -99,8 +99,17 @@ class FirstFragment : Fragment() {
                 0 -> booksViewModel.sortByTitle()
                 1 -> booksViewModel.sortByTitleDescending()
                 2 -> booksViewModel.sortByPrice()
-                3 -> booksViewModel.sortByPriceDescenting()
+                3 -> booksViewModel.sortByPriceDescending()
             }
+        }
+
+        binding.buttonFilter.setOnClickListener {
+            val title = binding.edittextFilterTitle.text.toString().trim()
+           /* if (title.isBlank()) {
+                binding.edittextFilterTitle.error = "No title"
+                return@setOnClickListener
+            }*/
+            booksViewModel.filterByTitle(title)
         }
     }
 

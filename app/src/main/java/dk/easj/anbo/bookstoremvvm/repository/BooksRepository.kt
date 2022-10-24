@@ -27,10 +27,10 @@ class BooksRepository {
             //.addConverterFactory(MoshiConverterFactory.create(moshi)) // Moshi, added to Gradle dependencies
             .build()
         bookStoreService = build.create(BookStoreService::class.java)
-        getPosts()
+        getBooks()
     }
 
-    fun getPosts() {
+    fun getBooks() {
         bookStoreService.getAllBooks().enqueue(object : Callback<List<Book>> {
             override fun onResponse(call: Call<List<Book>>, response: Response<List<Book>>) {
                 if (response.isSuccessful) {
@@ -59,6 +59,7 @@ class BooksRepository {
                 if (response.isSuccessful) {
                     Log.d("APPLE", "Added: " + response.body())
                     updateMessageLiveData.postValue("Added: " + response.body())
+                    getBooks()
                 } else {
                     val message = response.code().toString() + " " + response.message()
                     errorMessageLiveData.postValue(message)
@@ -127,5 +128,14 @@ class BooksRepository {
 
     fun sortByPriceDescending() {
         booksLiveData.value = booksLiveData.value?.sortedByDescending { it.price }
+    }
+
+    fun filterByTitle(title: String) {
+        if (title.isBlank()) {
+            getBooks()
+        }else {
+            booksLiveData.value = booksLiveData.value?.filter { book -> book.title.contains(title) }
+            // TODO: bug fix: booksLiveData.value keeps getting smaller for each filter
+        }
     }
 }

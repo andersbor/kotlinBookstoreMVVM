@@ -15,7 +15,7 @@ class BooksViewModel : ViewModel() {
     }
 
     fun reload() {
-        repository.getPosts()
+        repository.getBooks()
     }
 
     operator fun get(index: Int): Book? {
@@ -46,7 +46,11 @@ class BooksViewModel : ViewModel() {
         repository.sortByPrice()
     }
 
-    fun sortByPriceDescenting() {
+    fun sortByPriceDescending() {
         repository.sortByPriceDescending()
+    }
+
+    fun filterByTitle(title: String) {
+        repository.filterByTitle(title)
     }
 }
