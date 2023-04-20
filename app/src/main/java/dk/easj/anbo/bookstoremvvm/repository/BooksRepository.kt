@@ -10,7 +10,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class BooksRepository {
-    private val url = "https://anbo-restbookquerystring.azurewebsites.net/api/"
+    private val baseUrl = "https://anbo-restbookquerystring.azurewebsites.net/api/"
+    // the specific (collection) part of the URL is on the individual methods in the interface BookstoreService
 
     //"http://anbo-restserviceproviderbooks.azurewebsites.net/Service1.svc/"
     private val bookStoreService: BookStoreService
@@ -21,7 +22,7 @@ class BooksRepository {
     init {
         //val moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
         val build: Retrofit = Retrofit.Builder()
-            .baseUrl(url)
+            .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create()) // GSON
             //.addConverterFactory(KotlinJsonAdapterFactory)
             //.addConverterFactory(MoshiConverterFactory.create(moshi)) // Moshi, added to Gradle dependencies

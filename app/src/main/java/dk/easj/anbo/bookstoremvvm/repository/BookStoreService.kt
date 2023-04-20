@@ -4,6 +4,9 @@ import dk.easj.anbo.bookstoremvvm.models.Book
 import retrofit2.Call
 import retrofit2.http.*
 
+// The methods in this interface are attributed with the specific (collection related) part of the URL
+// The base URL is found in the class BooksRepository
+
 interface BookStoreService {
     @GET("books")
     fun getAllBooks(): Call<List<Book>>
